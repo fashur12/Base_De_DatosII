@@ -30,6 +30,18 @@ Si se elimina un estudiante que aún está presente en la tabla de inscripciones
    Permite que, al eliminar un estudiante, también se eliminen automáticamente sus inscripciones. Se utiliza cuando las inscripciones no tienen sentido sin el estudiante correspondiente.
 
 ---
+Ejercicio 3: Concurrencia
+Enunciado
+Simular una situación donde dos usuarios intentan actualizar el mismo saldo de una cuenta bancaria. Analizar cómo afectan las condiciones de aislamiento (READ COMMITTED vs SERIALIZABLE).
+
+Explicación
+Para este ejercicio, creamos una tabla llamada cuentas con los campos id_cuenta, nombre y saldo. Luego, simulamos dos transacciones que intentan retirar dinero de la misma cuenta al mismo tiempo.
+
+Se probaron dos niveles de aislamiento:
+
+READ COMMITTED: las dos transacciones pueden ver los cambios ya confirmados. Esto puede provocar errores si ambas transacciones leen el mismo saldo inicial antes de que alguna lo actualice.
+
+SERIALIZABLE: MySQL impide que las transacciones interfieran entre sí, forzando que se ejecuten de forma secuencial. Esto garantiza mayor consistencia, aunque puede generar bloqueos si hay muchas operaciones simultáneas.
 
 ## Ejercicio 4: Plan de Ejecución con y sin Índice (MySQL)
 
@@ -65,6 +77,16 @@ Ahora se crea un índice y se ejecuta la misma consulta.
 ![Tiempo con índice](Imagenes/TiempoEj4-2.png)
 
 ---
+Ejercicio 6: Vistas
+Enunciado
+Crear una vista que resuma las ventas mensuales por producto. Luego, usarla en una consulta que devuelva los 5 productos más vendidos.
+
+Explicación
+Primero se crea una tabla ventas donde se registran los productos vendidos, la cantidad y la fecha. Después, se construye una vista llamada vista_ventas_mensuales que agrupa por producto y mes, sumando las cantidades vendidas. Esta vista permite simplificar consultas futuras.
+Finalmente, se hace una consulta sobre la vista para obtener los 5 productos más vendidos en total, usando GROUP BY, SUM() y ORDER BY.
+
+Conclusión
+Este ejercicio me sirvió para entender cómo las vistas pueden facilitar el análisis de datos al permitir reutilizar consultas complejas. Además, me mostró cómo organizar y agrupar información de forma más eficiente para obtener reportes útiles, como los productos más vendidos. La vista simplifica mucho las consultas, y hace que el código sea más claro y reutilizable.
 
 ### Conclusión
 
