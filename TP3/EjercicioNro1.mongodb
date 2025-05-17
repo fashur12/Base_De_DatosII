@@ -1,0 +1,32 @@
+// Ejercicio 1: Filtrado básico con $match
+// Objetivo: Practicar el uso de $match para filtrar documentos.
+
+use('tiendaOnline');
+
+// Tarea: 
+// Encontrar todos los productos de la categoría "Electrónica" con un precio superior a 500.
+
+let resultado_primer_consulta = db.productos.aggregate([
+    {
+        $match: {
+        categoria: "Electrónica",
+        precio: { $gt: 500 }
+        }
+    }    
+]).toArray();
+
+console.log(resultado_primer_consulta);
+
+// Encontrar todas las ventas realizadas a clientes de "España" que tengan estado "Entregado".
+// Etapa del Pipeline: $match
+
+let resultado_segunda_consulta = db.ventas.aggregate([
+    {
+        $match: {
+            "cliente.pais": "España",
+            estado: "Entregado"
+        }
+    }    
+]).toArray();
+
+console.log(resultado_segunda_consulta);

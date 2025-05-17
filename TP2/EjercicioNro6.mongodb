@@ -1,0 +1,9 @@
+use('empresa');
+
+db.clientes.insertMany([
+  { nombre: "Laura", apellido: "Ramírez", email: "laura@ejemplo.com" },
+  { nombre: "Pedro", apellido: "Gómez", email: "pedro@ejemplo.com" },
+  { nombre: "Marta", apellido: "Zúñiga", email: "marta@ejemplo.com" }
+]);
+
+db.clientes.createIndex({ apellido: 1, nombre: 1 });

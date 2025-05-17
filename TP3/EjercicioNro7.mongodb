@@ -1,0 +1,57 @@
+// Ejercicio 7: Operadores condicionales
+// Objetivo: Utilizar operadores condicionales en el pipeline.
+
+use('tiendaOnline');
+
+// Tarea:
+// - Clasificar los productos según su precio: "Económico" (<100), "Estándar" (100-500), "Premium" (>500).
+
+let resultado_primera_condicion = db.productos.aggregate([
+    {
+        $project: {
+            nombre: 1,
+            precio: 1,
+            rango_precio: {
+                $switch: {
+                    branches: [
+                        { case: { $lt: ["$precio", 100] }, then: "Económico" },
+                        { case: { $and: [ { $gte: ["$precio", 100] }, { $lte: ["$precio", 500] } ] }, then: "Estándar" },
+                        { case: { $gt: ["$precio", 500] }, then: "Premium" }
+                    ],
+                    default: "Sin clasificar"
+                }
+            }
+        }
+    }
+]).toArray();
+
+console.log(resultado_primera_condicion);
+
+// - Clasificar las ventas según su total: "Pequeña" (<200), "Mediana" (200-800), "Grande" (>800).
+// Etapas del Pipeline: $project, $group
+
+let resultado_segunda_condicion = db.ventas.aggregate([
+    {
+        $project: {
+            cliente: 1,
+            cantidad: 1,
+            precio_unitario: 1,
+            total: { $multiply: ["$cantidad", "$precio_unitario"] },
+            tamaño_venta: {
+                $switch: {
+                    branches: [
+                        { case: { $lt: [ { $multiply: ["$cantidad", "$precio_unitario"] }, 200 ] }, then: "Pequeña" },
+                        { case: { $and: [ 
+                            { $gte: [ { $multiply: ["$cantidad", "$precio_unitario"] }, 200 ] },
+                            { $lte: [ { $multiply: ["$cantidad", "$precio_unitario"] }, 800 ] }
+                        ] }, then: "Mediana" },
+                        { case: { $gt: [ { $multiply: ["$cantidad", "$precio_unitario"] }, 800 ] }, then: "Grande" }
+                    ],
+                    default: "Sin clasificar"
+                }
+            }
+        }
+    }
+]).toArray();
+
+console.log(resultado_segunda_condicion);

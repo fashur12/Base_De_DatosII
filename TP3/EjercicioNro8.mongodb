@@ -1,0 +1,53 @@
+// Ejercicio 8: Pipeline complejo
+// Objetivo: Combinar múltiples etapas en un pipeline complejo.
+// Tarea: Obtener un informe de ventas que incluya:
+// - Top 3 productos más vendidos (por cantidad)
+// - Para cada producto: nombre, categoría, total de unidades vendidas, monto total generado
+// - Puntuación promedio en valoraciones
+// - Etapas del Pipeline: Combinar múltiples etapas vistas anteriormente
+use('tiendaOnline');
+
+let consulta = db.ventas.aggregate([
+    {
+        $lookup: {
+            from: "productos",
+            localField: "producto_id",
+            foreignField: "_id",
+            as: "producto"
+        }
+    },
+    { $unwind: "$producto" },
+    {
+        $group: {
+            _id: "$producto._id",
+            nombre: { $first: "$producto.nombre" },
+            categoria: { $first: "$producto.categoria" },
+            total_unidades_vendidas: { $sum: "$cantidad" },
+            monto_total_generado: { $sum: { $multiply: ["$cantidad", "$precio_unitario"] } }
+        }
+    },
+    {
+        $lookup: {
+            from: "productos",
+            localField: "_id",
+            foreignField: "_id",
+            as: "detalles_producto"
+        }
+    },
+    { $unwind: "$detalles_producto" },
+    { $unwind: { path: "$detalles_producto.valoraciones", preserveNullAndEmptyArrays: true } },
+    {
+        $group: {
+            _id: "$_id",
+            nombre: { $first: "$nombre" },
+            categoria: { $first: "$categoria" },
+            total_unidades_vendidas: { $first: "$total_unidades_vendidas" },
+            monto_total_generado: { $first: "$monto_total_generado" },
+            puntuacion_promedio: { $avg: "$detalles_producto.valoraciones.puntuacion" }
+        }
+    },
+    { $sort: { total_unidades_vendidas: -1 } },
+    { $limit: 3 }
+]).toArray();
+
+console.log(consulta);

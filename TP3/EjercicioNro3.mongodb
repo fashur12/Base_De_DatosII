@@ -1,0 +1,37 @@
+// Ejercicio 3: Transformación de documentos con $project
+// Objetivo: Transformar la estructura de los documentos utilizando $project.
+
+use('tiendaOnline');
+
+//Tarea:
+// - Crear una proyección de productos que incluya solo el nombre, precio, y una nueva propiedad llamada 
+// "precioConImpuesto" que sea el precio + 21% de IVA.
+
+let resultado_primer_consulta = db.productos.aggregate([
+    {
+        $project: {
+            nombre: 1,
+            precio: "$precio",
+            precioConImpuesto: { $multiply: ["$precio", 1.21] }
+        }
+    }
+]).toArray();
+
+console.log(resultado_primer_consulta);
+
+// - Para la colección de ventas, crear una proyección que incluya el ID de venta, el nombre del cliente, 
+// el total y una nueva propiedad "descuento" que sea el 10% del total.
+//Etapas del Pipeline: $project
+
+let resultado_segunda_consulta = db.ventas.aggregate([
+    {
+        $project: {
+            _id: 1,
+            "cliente.nombre": 1,
+            total: "$total",
+            descuento: { $multiply: ["$precio_unitario", 0.9] }
+        }
+    }
+]).toArray();
+
+console.log(resultado_segunda_consulta);
