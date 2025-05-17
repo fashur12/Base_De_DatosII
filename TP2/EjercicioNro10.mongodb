@@ -1,0 +1,14 @@
+//Ejercicio 10(Parte de codigo mongo): Seguridad y backups Muestra los pasos para crear un usuario con permisos de lectura y escritura, 
+//      y los comandos necesarios para hacer backup y restauración de una base de datos.
+
+use("empresa");
+
+db.createUser(
+    {
+        user: "Andy",
+        pwd: "Andy123",
+        roles: [
+            "readWrite"
+        ]
+    }
+);

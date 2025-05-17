@@ -5,9 +5,10 @@
 // - Para cada producto: nombre, categoría, total de unidades vendidas, monto total generado
 // - Puntuación promedio en valoraciones
 // - Etapas del Pipeline: Combinar múltiples etapas vistas anteriormente
+
 use('tiendaOnline');
 
-let consulta = db.ventas.aggregate([
+db.ventas.aggregate([
     {
         $lookup: {
             from: "productos",
@@ -48,6 +49,5 @@ let consulta = db.ventas.aggregate([
     },
     { $sort: { total_unidades_vendidas: -1 } },
     { $limit: 3 }
-]).toArray();
+]);
 
-console.log(consulta);

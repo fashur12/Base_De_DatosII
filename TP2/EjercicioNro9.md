@@ -1,0 +1,5 @@
+# Ejercicio Numero 9
+
+La replicación en MongoDB mediante un conjunto de Replica Set proporciona alta disponibilidad y redundancia, garantizando que los datos siempre estén accesibles incluso si falla un servidor. Esto se logra replicando los datos en múltiples nodos, donde uno actúa como principal y el otro como secundario. También permite la lectura desde nodos secundarios, lo que ayuda a equilibrar la carga y a mejorar el rendimiento en situaciones exigentes, además de minimizar el tiempo de inactividad por mantenimiento.
+
+Por otro lado, el Sharding distribuye los datos entre múltiples servidores, lo que permite la escalabilidad horizontal y el uso de grandes cantidades de información. Al fragmentar los datos en fragmentos, las consultas se pueden ejecutar en paralelo, lo que mejora el rendimiento y reduce el tiempo de respuesta. Además, la fragmentación ayuda a equilibrar la carga, evitando los puntos críticos de la base de datos y permitiendo a las organizaciones gestionar mejor los datos y adaptarse a sus necesidades cambiantes.

@@ -1,0 +1,48 @@
+// Ejercicio 4: Documentos embebidos Agrega un campo direccion que incluya calle, ciudad y codigo_postal.
+
+use('empresa');
+
+db.empleados.updateOne(
+    {
+        nombre: "Andy Garcia"        
+    },
+    {
+        $set: {
+            "direccion":{
+                "calle": "9 de Julio",
+                "ciudad": "Puan",
+                "codigo_postal": 8180
+            }
+        }
+    }
+);
+
+db.empleados.updateOne(
+    {
+        nombre: "Joaquin Benamo"        
+    },
+    {
+        $set: {
+            "direccion":{
+                "calle": "18 de julio",
+                "ciudad": "Puan",
+                "codigo_postal": 8180
+            }
+        }
+    }
+);
+
+db.empleados.updateOne(
+    {
+        nombre: "Fausto Desch"        
+    },
+    {
+        $set: {
+            "direccion":{
+                "calle": "11 de abril",
+                "ciudad": "Bahia Blanca",
+                "codigo_postal": 8000
+            }
+        }
+    }
+);

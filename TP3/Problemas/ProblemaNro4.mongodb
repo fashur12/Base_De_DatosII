@@ -1,0 +1,93 @@
+// Problema 4 (Desafío)
+// Crear un sistema de recomendación básico que, para un cliente dado, recomiende productos basándose en:
+//  - Productos de la misma categoría que ha comprado anteriormente.
+//  - Productos populares (más vendidos) que no ha comprado aún.
+//  - Productos mejor valorados en las categorías de su interés.
+
+use('tiendaOnline');
+
+db.ventas.aggregate([
+    {
+        $match: { "cliente.email": "juan@example.com" }  
+        // Utilizamos este gmail como PRINCIPIO del filtro.
+    },
+    {
+        $lookup: {  
+            // Hacemos un "Join" vinculando  el id de productos con los id de productos (en ventas) de nuestro gmail.
+            from: "productos",
+            localField: "producto_id",
+            foreignField: "_id",
+            as: "producto"
+        }
+    },
+    { 
+        $unwind: "$producto"  
+        // "Desarmamos" ese/esos produco/s obtenios 
+    },
+    {
+        $group: { 
+            // Agrupamos para luego "Descartar" categorias.
+            _id: null,
+            categoriasCompradas: { $addToSet: "$producto.categoria" },
+            productosComprados: { $addToSet: "$producto._id" }
+        }
+    },
+    {
+        $lookup: {
+            // Volvemos a conectar dos tablas. En este caso "categoria" con los productos de las categorias que acabamos de formar en el group.
+            from: "productos",
+            localField: "categoriasCompradas",
+            foreignField: "categoria",
+            as: "recomendaciones"
+        }
+    },
+    { 
+        $unwind: "$recomendaciones" 
+    },
+    {
+        $match: {
+            // Filtramos las recomendaciones con los productos comprados 
+            $expr: {
+                $not: { $in: ["$recomendaciones._id", "$productosComprados"] }
+            }
+        }
+    },
+    {
+        $addFields: {
+            "recomendaciones.puntuacionMedia": {
+                // Sacamos una puntuacion media de las categorias investigadas
+                $cond: {
+                    if: { $gt: [{ $size: "$recomendaciones.valoraciones" }, 0] },
+                    then: { $avg: "$recomendaciones.valoraciones.puntuacion" },
+                    else: 0
+                }
+            }
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            recomendaciones: { $push: "$recomendaciones" }
+        }
+    },
+    { 
+        $unwind: "$recomendaciones" 
+    },
+    { 
+        $sort: { "recomendaciones.puntuacionMedia": -1 } 
+        // Ordenamos descendentemente
+    },
+    { 
+        $limit: 5 
+    },
+    {
+        $project: {
+            // Armamos nuestra consulta final!
+            _id: 0,
+            nombre: "$recomendaciones.nombre",
+            categoria: "$recomendaciones.categoria",
+            precio: "$recomendaciones.precio",
+            puntuacionMedia: "$recomendaciones.puntuacionMedia"
+        }
+    }
+]);

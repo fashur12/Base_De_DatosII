@@ -1,0 +1,21 @@
+// Ejercicio 2: Búsquedas con operadores -> Consulta todos 
+//                  los empleados cuya edad esté entre 25 y 40 años. Usa operadores relacionales y lógicos.
+
+use('empresa');
+
+db.createCollection("empleados");
+
+db.empleados.insertMany([
+    { nombre: "Andy Garcia", edad: 20, puesto: "Administrativo" },
+    { nombre: "Fausto Desch", edad: 20, puesto: "Oficio" },
+    { nombre: "Joaquin Benamo", edad: 28, puesto: "Impresión" }
+]);
+
+let consulta = db.empleados.find({
+    $and: [
+        {edad: {$gt: 25}}, 
+        {edad: {$lt: 40}} 
+    ]
+}).toArray();
+
+console.log(consulta);
