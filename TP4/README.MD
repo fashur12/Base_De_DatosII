@@ -104,4 +104,4 @@ Nota: Cambiar "Ana" por el nombre del usuario deseado.
 ---
 
 ## Asi quedarian los grafos, podemos verlos en Explore y pidiendole que nos muestre el grafico:
-![Grafo_Ejercicio4](./imagenes/Grafo_Ejercicio4.png)
+![Grafo_Ejercicio3](./imagenes/Grafo_Ejercicio3.png)
