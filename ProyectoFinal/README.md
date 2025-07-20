@@ -121,17 +121,64 @@ Se desplegará el siguiente menú:
 
 Las siguientes imágenes ilustran el uso del sistema desde consola:
 
-- `assets/Menú.jpeg`  
-- `assets/Opción_0.jpeg`  
-- `assets/Opción_1.jpeg`  
-- `assets/Opción_2.jpeg`  
-- `assets/Opción_3.jpeg`  
-- `assets/Opción_4-Entrada.jpeg`  
-- `assets/Opción_4-Salida.jpeg`  
-- `assets/Opción_5.jpeg`  
-- `assets/Opción_6.jpeg`  
-- `assets/Opción_7.jpeg`  
-- `assets/Opción_8.jpeg`  
+### Menú del sistema:
+
+![Menú](./assets/Menú.jpeg)
+
+---
+
+### Agregar Producto:
+
+![Opción 1](./assets/Opción_1.jpeg)
+
+---
+
+### Consultar Stock:
+  
+![Opción 2](./assets/Opción_2.jpeg)
+
+---
+
+### Ver productos con stock bajo:
+
+![Opción 3](./assets/Opción_3.jpeg)
+
+---
+
+### Registar movimiento de stock:
+
+![Opción 4 - Entrada](./assets/Opción_4-Entrada.jpeg)
+![Opción 4 - Salida](./assets/Opción_4-Salida.jpeg)
+
+---
+
+### Generar reporte de movimientos:
+
+![Opción 5](./assets/Opción_5.jpeg)
+
+---
+
+### Registar proveedores:
+
+![Opción 6](./assets/Opción_6.jpeg)
+
+---
+
+### Listar proveedores:
+
+![Opción 7](./assets/Opción_7.jpeg)
+
+---
+
+### Listar productos:
+
+![Opción 8](./assets/Opción_8.jpeg)
+
+---
+
+### Cierre del sistema:
+
+![Opción 0](./assets/Opción_0.jpeg)
 
 ---
 
